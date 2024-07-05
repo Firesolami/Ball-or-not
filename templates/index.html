@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ball or Not</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .container {
+        text-align: center;
+    }
+    h1 {
+        color: #333;
+    }
+    #university {
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 2px solid #007bff;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    #ballOrNotButton {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+    #ballOrNotButton:hover {
+        background-color: #218838;
+    }
+    #result {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Ball or Not</h1>
+    <select id="university">
+        <option value="">Select Your University</option>
+        <!-- Add options dynamically using JavaScript -->
+    </select>
+    <button id="ballOrNotButton">Ball or Not</button>
+    <div id="result"></div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get reference to elements
+    const universitySelect = document.getElementById("university");
+    const ballOrNotButton = document.getElementById("ballOrNotButton");
+    const resultDiv = document.getElementById("result");
+
+    // Array of universities
+    const universities = [
+        "Abia State University",
+        "Abubakar Tafawa Balewa University",
+        "Achievers University",
+        "Adamawa State University",
+        "Adekunle Ajasin University",
+        "Adeleke University",
+        "Afe Babalola University",
+        "African University of Science and Technology",
+        "Ahmadu Bello University",
+        "Ajayi Crowther University",
+        "Akwa Ibom State University",
+        "Al-Hikmah University",
+        "Al-Qalam University",
+        "American University of Nigeria",
+        "Anambra State University",
+        "Babcock University",
+        "Bauchi State University",
+        "Bayero University Kano",
+        "Baze University",
+        "Bells University of Technology",
+        "Benson Idahosa University",
+        "Benue State University",
+        "Bingham University",
+        "Bowen University",
+        "Caleb University",
+        "Caritas University",
+        "Chrisland University",
+        "Covenant University",
+        "Crawford University",
+        "Crescent University",
+        "Cross River State University of Technology",
+        "Delta State University",
+        "Ebonyi State University",
+        "Ekiti State University",
+        "Elizade University",
+        "Enugu State University of Science and Technology",
+        "Evangel University",
+        "Federal University of Agriculture, Abeokuta",
+        "Federal University of Lafia",
+        "Federal University of Petroleum Resources",
+        "Federal University of Technology, Akure",
+        "Federal University of Technology, Minna",
+        "Federal University of Technology, Owerri",
+        "Federal University of Technology, Yola",
+        "Federal University, Birnin Kebbi",
+        "Federal University, Birnin Kebbi",
+        "Federal University, Dutse",
+        "Federal University, Dutse",
+        "Federal University, Dutsin-Ma",
+        "Federal University, Dutsin-Ma",
+        "Federal University, Gashua",
+        "Federal University, Gashua",
+        "Federal University, Gusau",
+        "Federal University, Gusau",
+        "Federal University, Kashere",
+        "Federal University, Kashere",
+        "Federal University, Lafia",
+        "Federal University, Lokoja",
+        "Federal University, Lokoja",
+        "Federal University, Ndufu-Alike",
+        "Federal University, Ndufu-Alike",
+        "Federal University, Otuoke",
+        "Federal University, Otuoke",
+        "Federal University, Owerri",
+        "Federal University, Owerri",
+        "Federal University, Oye-Ekiti",
+        "Federal University, Wukari",
+        "Federal University, Wukari",
+        "Fountain University",
+        "Godfrey Okoye University",
+        "Gombe State University",
+        "Gregory University",
+        "Hallmark University",
+        "Ibrahim Badamasi Babangida University",
+        "Ignatius Ajuru University of Education",
+        "Imo State University",
+        "Joseph Ayo Babalola University",
+        "Kaduna State University",
+        "Kano State University of Science and Technology",
+        "Kebbi State University of Science and Technology",
+        "Kings University",
+        "Kogi State University",
+        "Kola Daisi University",
+        "Kwara State University",
+        "Lagos State University",
+        "Lagos State University",
+        "Lead City University",
+        "Madonna University",
+        "McPherson University",
+        "Micheal and Cecilia Ibru University",
+        "Mountain Top University",
+        "Nasarawa State University",
+        "Niger Delta University",
+        "Nile University of Nigeria",
+        "Nnamdi Azikiwe University",
+        "Northwest University",
+        "Novena University",
+        "Obafemi Awolowo University",
+        "Obong University",
+        "Oduduwa University",
+        "Olabisi Onabanjo University",
+        "Ondo State University of Science and Technology",
+        "Osun State University",
+        "Pan-Atlantic University",
+        "Paul University",
+        "Plateau State University",
+        "Redeemer's University",
+        "Renaissance University",
+        "Rhema University",
+        "Rivers State University",
+        "Salem University",
+        "Samuel Adegboyega University",
+        "Sokoto State University",
+        "Southwestern University",
+        "Summit University",
+        "Tai Solarin University of Education",
+        "Tansian University",
+        "Taraba State University",
+        "Umaru Musa Yar'adua University",
+        "University of Abuja",
+        "University of Benin",
+        "University of Ibadan",
+        "University of Ilorin",
+        "University of Jos",
+        "University of Lagos",
+        "University of Maiduguri",
+        "University of Mkar",
+        "University of Nigeria, Nsukka",
+        "University of Port Harcourt",
+        "Usmanu Danfodiyo University",
+        "Veritas University",
+        "Wellspring University",
+        "Wesley University of Science and Technology",
+        "Western Delta University",
+        "Yobe State University",
+        "Zamfara State University",
+];
+
+    // Populate the select dropdown with options
+    universities.forEach(function(university) {
+        const option = document.createElement("option");
+        option.text = university;
+        universitySelect.add(option);
+    });
+
+    // Function to handle button click
+    ballOrNotButton.addEventListener("click", async () => {
+        const selectedUniversity = universitySelect.value;
+        if (selectedUniversity) {
+            const regions = {
+                "University of Lagos": "Lagos",
+                "University of Ibadan": "Oyo",
+                "Obafemi Awolowo University": "Osun",
+                "University of Nigeria, Nsukka": "Enugu",
+                "Ahmadu Bello University": "Kaduna",
+                "University of Ilorin": "Kwara",
+                "Federal University of Technology, Akure": "Ondo",
+                "University of Benin": "Edo",
+                "University of Port Harcourt": "Rivers",
+                "Federal University of Technology, Minna": "Niger",
+                "Lagos State University": "Lagos",
+                "Federal University of Technology, Owerri": "Imo",
+                "Nnamdi Azikiwe University": "Anambra",
+                "University of Jos": "Plateau",
+                "Bayero University Kano": "Kano",
+                "University of Maiduguri": "Borno",
+                "Usmanu Danfodiyo University": "Sokoto",
+                "Abubakar Tafawa Balewa University": "Bauchi",
+                "Federal University of Agriculture, Abeokuta": "Ogun",
+                "Federal University, Oye-Ekiti": "Ekiti",
+                "Federal University of Petroleum Resources": "Delta",
+                "University of Abuja": "FCT",
+                "Federal University, Dutsin-Ma": "Katsina",
+                "Adekunle Ajasin University": "Ondo",
+                "Federal University of Technology, Yola": "Adamawa",
+                "Abia State University": "Abia",
+                "Federal University of Lafia": "Nasarawa",
+                "Federal University, Kashere": "Gombe",
+                "Federal University, Birnin Kebbi": "Kebbi",
+                "Federal University, Wukari": "Taraba",
+                "Federal University, Dutse": "Jigawa",
+                "Federal University, Gusau": "Zamfara",
+                "Federal University, Otuoke": "Bayelsa",
+                "Federal University, Ndufu-Alike": "Ebonyi",
+                "Federal University, Lokoja": "Kogi",
+                "Federal University, Gashua": "Yobe",
+                "Federal University, Ekiti": "Ekiti",
+                "Federal University, Ndifu-Alike": "Ebonyi",
+                "Abia State University": "Abia",
+                "Adamawa State University": "Adamawa",
+                "Akwa Ibom State University": "Akwa Ibom",
+                "Anambra State University": "Anambra",
+                "Bauchi State University": "Bauchi",
+                "Benue State University": "Benue",
+                "Cross River State University of Technology": "Cross River",
+                "Delta State University": "Delta",
+                "Ebonyi State University": "Ebonyi",
+                "Ekiti State University": "Ekiti",
+                "Enugu State University of Science and Technology": "Enugu",
+                "Gombe State University": "Gombe",
+                "Ibrahim Badamasi Babangida University": "Niger",
+                "Ignatius Ajuru University of Education": "Rivers",
+                "Imo State University": "Imo",
+                "Kaduna State University": "Kaduna",
+                "Kano State University of Science and Technology": "Kano",
+                "Kebbi State University of Science and Technology": "Kebbi",
+                "Kogi State University": "Kogi",
+                "Kwara State University": "Kwara",
+                "Lagos State University": "Lagos",
+                "Nasarawa State University": "Nasarawa",
+                "Niger Delta University": "Bayelsa",
+                "Northwest University": "Kano",
+                "Olabisi Onabanjo University": "Ogun",
+                "Ondo State University of Science and Technology": "Ondo",
+                "Osun State University": "Osun",
+                "Plateau State University": "Plateau",
+                "Rivers State University": "Rivers",
+                "Sokoto State University": "Sokoto",
+                "Tai Solarin University of Education": "Ogun",
+                "Taraba State University": "Taraba",
+                "Umaru Musa Yar'adua University": "Katsina",
+                "Yobe State University": "Yobe",
+                "Zamfara State University": "Zamfara",
+                "Achievers University": "Ondo",
+                "Adeleke University": "Osun",
+                "Afe Babalola University": "Ekiti",
+                "African University of Science and Technology": "Federal Capital Territory",
+                "Ajayi Crowther University": "Oyo",
+                "Al-Hikmah University": "Kwara",
+                "Al-Qalam University": "Katsina",
+                "American University of Nigeria": "Adamawa",
+                "Babcock University": "Ogun",
+                "Baze University": "Federal Capital Territory",
+                "Bells University of Technology": "Ogun",
+                "Benson Idahosa University": "Edo",
+                "Bingham University": "Nasarawa",
+                "Bowen University": "Osun",
+                "Caleb University": "Lagos",
+                "Caritas University": "Enugu",
+                "Chrisland University": "Ogun",
+                "Covenant University": "Ogun",
+                "Crawford University": "Ogun",
+                "Crescent University": "Ogun",
+                "Elizade University": "Ondo",
+                "Evangel University": "Ebonyi",
+                "Fountain University": "Osun",
+                "Godfrey Okoye University": "Enugu",
+                "Gregory University": "Abia",
+                "Hallmark University": "Ogun",
+                "Joseph Ayo Babalola University": "Osun",
+                "Kings University": "Osun",
+                "Kola Daisi University": "Oyo",
+                "Lead City University": "Oyo",
+                "Madonna University": "Anambra",
+                "McPherson University": "Ogun",
+                "Micheal and Cecilia Ibru University": "Delta",
+                "Mountain Top University": "Ogun",
+                "Nile University of Nigeria": "Federal Capital Territory",
+                "Novena University": "Delta",
+                "Obong University": "Akwa Ibom",
+                "Oduduwa University": "Osun",
+                "Pan-Atlantic University": "Lagos",
+                "Paul University": "Anambra",
+                "Redeemer's University": "Osun",
+                "Renaissance University": "Enugu",
+                "Rhema University": "Rivers",
+                "Salem University": "Kogi",
+                "Samuel Adegboyega University": "Edo",
+                "Southwestern University": "Ogun",
+                "Summit University": "Kwara",
+                "Tansian University": "Anambra",
+                "University of Mkar": "Benue",
+                "Veritas University": "Federal Capital Territory",
+                "Wellspring University": "Edo",
+                "Wesley University of Science and Technology": "Ondo",
+                "Western Delta University": "Delta"
+            };
+            const region = regions[selectedUniversity];
+            // Call the Ball or Not API with selected university
+            const endpointUrl = '/ball-or-not/';
+                
+                try {
+                    const formData = new FormData();
+                    formData.append('text', region);
+
+                    const response = await fetch(endpointUrl, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const data = await response.json();
+                    resultDiv.innerHTML = data.content;
+                } catch (error) {
+                    console.error("Error occurred:", error);
+                    alert("Something went wrong. Please try again later.");
+                    
+                }
+        } else {
+            resultDiv.innerHTML = "Please select a university.";
+        }
+    });
+});
+</script>
+</body>
+</html>
